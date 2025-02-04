@@ -19,4 +19,4 @@ use App\Http\Controllers\ReportController;
 Route::get('/send-sms', [NotificationController::class, 'enviarSms']);
 Route::get('/send-sms-all', [NotificationController::class, 'enviarSmsTodos']);
 
-Route::get('/report', [ReportController::class, 'index']);
+Route::get('/prediction', [FlaskController::class, 'prediction']);

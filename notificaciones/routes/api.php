@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\NotificationController;
+use App\Notifications\TestNotification;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +20,6 @@ use App\Http\Controllers\NotificationController;
 Route::get('/send-sms', [NotificationController::class, 'enviarSms']);
 Route::get('/send-sms-all', [NotificationController::class, 'enviarSmsTodos']);
 
-Route::get('/', function () {
 
-    Notification::route('mail', 'taylor@example.com')->notify(new TestNotification());
-    return response()->json(['message' => 'API Notificaciones', 'status' => 'Connected']);
-});
 
 
