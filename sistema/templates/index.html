@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Análisis de Sentimientos</title>
+</head>
+<body>
+    <h1>Análisis de Sentimientos</h1>
+    <form method="POST">
+        <label for="comment">Comentario:</label><br>
+        <textarea id="comment" name="comment" rows="4" cols="50"></textarea><br><br>
+        <input type="submit" value="Analizar">
+    </form>
+
+    {% if prediction %}
+    <h2>Resultado:</h2>
+    <p>El comentario "{{ comment }}" es: {{ prediction }}</p>
+    {% endif %}
+</body>
+</html>
