@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +13,5 @@ use App\Http\Controllers\ReportController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::get('/send-sms', [NotificationController::class, 'enviarSms']);
-Route::get('/send-sms-all', [NotificationController::class, 'enviarSmsTodos']);
 
 Route::get('/report', [ReportController::class, 'index']);
