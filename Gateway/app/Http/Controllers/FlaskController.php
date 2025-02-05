@@ -18,11 +18,23 @@ class FlaskController extends Controller
     /**
      * Display a listing of the resource.
      */
+<<<<<<< HEAD
     public function index()
     {
         $url = $this->apiUrl . '/categories/'; 
         $response = Http::withHeaders(['X_API_KEY' => $this->apiKey])->get($url);
         return $response->json();
+=======
+    public function prediction(Request $request)
+    {
+
+        $url = $this->apiUrl . '/';
+
+        $response = Http::post($url, [
+            'comment' => $request->input('comment')
+        ]);
+        return response()->json();
+>>>>>>> 05128697a2992a1a3af8e76dada0ac199382c3cc
     }
 
 

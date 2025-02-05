@@ -17,9 +17,11 @@ use App\Notifications\TestNotification;
 |
 */
 
-Route::get('/send-sms', [NotificationController::class, 'enviarSms']);
-Route::get('/send-sms-all', [NotificationController::class, 'enviarSmsTodos']);
-
+Route::middleware(['Filter'])->group(function () {
+    Route::get('/send-sms', [NotificationController::class, 'enviarSms']);
+    Route::get('/send-sms-all', [NotificationController::class, 'enviarSmsTodos']);
+    Route::get('/send-email', [NotificationController::class, 'sendEmail']);
+});
 
 
 

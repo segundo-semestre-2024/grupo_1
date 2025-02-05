@@ -2,34 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Barryvdh\DomPDF\Facade as PDF;
-
 use Illuminate\Http\Request;
-use App\Models\Report;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ReporteExport;
 
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    // Generar PDF
+    public function generarPDF()
     {
-        $reports = Report::all();
-        $data = [
-            'titulo' => 'Reporte de Usuarios',
-            'datos' => $reports
-        ];
+        $data = ['titulo' => 'Reporte de Ejemplo', 'contenido' => 'Este es un reporte en PDF.'];
+        $pdf = Pdf::loadView('reportes.pdf', $data);
 
-        // Cargar la vista y pasar los datos
-        $pdf = PDF::loadView('report', $data);
-
-        // Generar el PDF y devolverlo como una descarga
-        return $pdf->download('reporte_usuarios.pdf');
-
+        return $pdf->download('reporte.pdf');
     }
 
-    public function categoriesall()
+    // Generar Excel
+    public function generarExcel()
     {
-
+        return Excel::download(new ReportExport, 'reporte.xlsx');
     }
 }

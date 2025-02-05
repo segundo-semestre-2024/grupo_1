@@ -9,6 +9,7 @@ use App\Models\Notification;
 
 class NotificationController extends Controller
 {
+    // Enviar SMS con Twilio (1)
     public function enviarSms()
     {
         //Obtener las credenciales de Twilio desde el archivo .env
@@ -32,6 +33,7 @@ class NotificationController extends Controller
         ]);
     }
 
+    // Enviar SMS con Twilio (Todos los numeros registrados en la BD)
     public function enviarSmsTodos()
     {
         $users= User::all();
@@ -50,5 +52,27 @@ class NotificationController extends Controller
             );
         }
     return 'Mensajes enviados exitosamente';    
+    }
+
+
+    // Enviar correo electrónico
+    public function sendEmail(Request $request)
+    {
+        $request->validate([
+            'to' => 'required|email',
+            'subject' => 'required|string',
+            'body' => 'required|string',
+        ]);
+
+        try {
+            Mail::raw($request->body, function ($message) use ($request) {
+                $message->to($request->to)
+                        ->subject($request->subject);
+            });
+
+            return response()->json(['message' => 'Correo enviado con éxito'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

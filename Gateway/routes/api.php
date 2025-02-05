@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\FlaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,11 @@ use App\Http\Controllers\ReportController;
 |
 */
 
+//Notificaciones
 Route::get('/send-sms', [NotificationController::class, 'enviarSms']);
 Route::get('/send-sms-all', [NotificationController::class, 'enviarSmsTodos']);
+Route::get('/send-email', [NotificationController::class, 'sendEmail']);
 
-Route::get('/prediction', [FlaskController::class, 'prediction']);
+//Reportes
+Route::get('/reportes/pdf', [ReportController::class, 'generarPDF']);
+Route::get('/reportes/excel', [ReportController::class, 'generarExcel']);
