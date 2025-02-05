@@ -17,11 +17,15 @@ class FlaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function prediction()
+    public function prediction(Request $request)
     {
+
         $url = $this->apiUrl . '/';
-        $response = Http::get($url);
-        return $response->json();   
+
+        $response = Http::post($url, [
+            'comment' => $request->input('comment')
+        ]);
+        return response()->json();
     }
 
     /**

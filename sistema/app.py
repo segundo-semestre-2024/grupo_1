@@ -28,12 +28,14 @@ def guardar_datos(ruta, datos):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    prediction = None
-    comment = None
     if request.method == 'POST':
-        comment = request.form['comment']
-        # Preprocesamiento del comentario
-        x = vectorizer.transform([comment])
+        comment = request.form.get('comment', None)  # Using .get() avoids the KeyError
+        if comment:
+            # Preprocesamiento del comentario
+            x = vectorizer.transform([comment])
+        else:
+            # Handle missing comment
+            return 'No comment provided', 400
 
         # Predicción
         P = model.predict(x)

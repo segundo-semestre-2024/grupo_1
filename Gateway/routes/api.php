@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\FlaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,4 @@ use App\Http\Controllers\ReportController;
 Route::get('/send-sms', [NotificationController::class, 'enviarSms']);
 Route::get('/send-sms-all', [NotificationController::class, 'enviarSmsTodos']);
 
-Route::get('/prediction', [FlaskController::class, 'prediction']);
+Route::post('/prediction', [FlaskController::class, 'prediction']);
