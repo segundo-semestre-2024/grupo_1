@@ -17,7 +17,11 @@ use App\Http\Controllers\FlaskController;
 |
 */
 
+//Notificaciones
 Route::get('/send-sms', [NotificationController::class, 'enviarSms']);
 Route::get('/send-sms-all', [NotificationController::class, 'enviarSmsTodos']);
+Route::get('/send-email', [NotificationController::class, 'sendEmail']);
 
-Route::post('/prediction', [FlaskController::class, 'prediction']);
+//Reportes
+Route::get('/reportes/pdf', [ReportController::class, 'generarPDF']);
+Route::get('/reportes/excel', [ReportController::class, 'generarExcel']);

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/report', [ReportController::class, 'index']);
+Route::middleware(['Filter'])->group(function () {
+    Route::get('/reportes/pdf', [ReportController::class, 'generarPDF']);
+    Route::get('/reportes/excel', [ReportController::class, 'generarExcel']);
+});
