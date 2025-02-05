@@ -23,7 +23,7 @@ class FlaskController extends Controller
      {
          $comment = $request->input('comment');
  
-         $response = Http::get(env('MICROSERVICIO_FLASK') . '/prediction', [
+         $response = Http::post(env('MICROSERVICIO_FLASK') . '/prediction', [
              'comment' => $comment
          ]);
  

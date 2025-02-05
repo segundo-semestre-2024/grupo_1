@@ -26,4 +26,4 @@ Route::get('/send-email', [NotificationController::class, 'sendEmail']);
 Route::get('/reportes-pdf', [ReportController::class, 'generarPDF']);
 Route::get('/reportes-excel', [ReportController::class, 'generarExcel']);
 
-Route::get('/prediction', [FlaskController::class, 'prediction']);
+Route::post('/prediction', [FlaskController::class, 'prediction']);
