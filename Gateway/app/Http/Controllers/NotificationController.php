@@ -3,62 +3,54 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class NotificationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    private $apiUrl;
+    private $apiKey;
+
+    public function __construct()
     {
-        //
+        // URL del microservicio de notificaciones
+        $this->apiUrl = env('MICROSERVICIO_NOT_URL');
+        $this->apiKey = env('X_API_KEY');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    // Reenviar petición de SMS a un número específico
+    public function enviarSms(Request $request)
     {
-        //
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$this->apiKey}"
+        ])->post("{$this->apiUrl}/send-sms", [
+            'to' => $request->input('to'),
+            'message' => $request->input('message'),
+        ]);
+
+        return response()->json($response->json(), $response->status());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    // Reenviar petición de SMS a todos los usuarios registrados
+    public function enviarSmsTodos()
     {
-        //
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$this->apiKey}"
+        ])->post("{$this->apiUrl}/send-sms-all");
+
+        return response()->json($response->json(), $response->status());
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Reenviar petición de envío de correo
+    public function sendEmail(Request $request)
     {
-        //
-    }
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$this->apiKey}"
+        ])->post("{$this->apiUrl}/send-email", [
+            'to' => $request->input('to'),
+            'subject' => $request->input('subject'),
+            'body' => $request->input('body'),
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json($response->json(), $response->status());
     }
 }

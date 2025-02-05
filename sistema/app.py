@@ -21,7 +21,7 @@ def guardar_datos(ruta, datos):
     ref = db.reference(ruta)
     ref.push(datos)  # Crea una nueva entrada con un ID generado automáticamente
     print("Datos guardados con éxito en Firebase")
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/prediction', methods=['GET', 'POST'])
 def index():
     prediction = None
     comment = None

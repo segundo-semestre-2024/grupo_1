@@ -16,6 +16,6 @@ use App\Http\Controllers\ReportController;
 */
 
 Route::middleware(['Filter'])->group(function () {
-    Route::get('/reportes/pdf', [ReportController::class, 'generarPDF']);
-    Route::get('/reportes/excel', [ReportController::class, 'generarExcel']);
+    Route::get('/reportes-pdf', [ReportController::class, 'generarPDF']);
+    Route::get('/reportes-excel', [ReportController::class, 'generarExcel']);
 });

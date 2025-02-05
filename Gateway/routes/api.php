@@ -23,7 +23,7 @@ Route::get('/send-sms-all', [NotificationController::class, 'enviarSmsTodos']);
 Route::get('/send-email', [NotificationController::class, 'sendEmail']);
 
 //Reportes
-Route::get('/reportes/pdf', [ReportController::class, 'generarPDF']);
-Route::get('/reportes/excel', [ReportController::class, 'generarExcel']);
+Route::get('/reportes-pdf', [ReportController::class, 'generarPDF']);
+Route::get('/reportes-excel', [ReportController::class, 'generarExcel']);
 
 Route::post('/prediction', [FlaskController::class, 'prediction']);

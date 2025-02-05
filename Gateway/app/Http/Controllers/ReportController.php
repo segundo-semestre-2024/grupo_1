@@ -3,62 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    private $apiUrl;
+    private $apiKey;
+
+    public function __construct()
     {
-        //
+        // URL del microservicio de reportes
+        $this->apiUrl = env('MICROSERVICIO_REP_URL');
+        $this->apiKey = env('X_API_KEY');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    // Reenviar petición para generar un PDF
+    public function generarPDF()
     {
-        //
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$this->apiKey}"
+        ])->get("{$this->apiUrl}/reportes-pdf");
+
+        return response($response->body(), $response->status())
+                ->header('Content-Type', $response->header('Content-Type'))
+                ->header('Content-Disposition', $response->header('Content-Disposition'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    // Reenviar petición para generar un Excel
+    public function generarExcel()
     {
-        //
-    }
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$this->apiKey}"
+        ])->get("{$this->apiUrl}/reportes-excel");
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response($response->body(), $response->status())
+                ->header('Content-Type', $response->header('Content-Type'))
+                ->header('Content-Disposition', $response->header('Content-Disposition'));
     }
 }

@@ -21,7 +21,7 @@ class FlaskController extends Controller
     public function prediction(Request $request)
     {
 
-        $url = $this->apiUrl . '/';
+        $url = $this->apiUrl . '/prediction';
 
         $response = Http::post($url, [
             'comment' => $request->input('comment')
