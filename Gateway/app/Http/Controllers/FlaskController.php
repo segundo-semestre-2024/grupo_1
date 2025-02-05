@@ -18,17 +18,22 @@ class FlaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function prediction(Request $request)
-    {
 
-        $url = $this->apiUrl . '/prediction';
-
-        $response = Http::post($url, [
-            'comment' => $request->input('comment')
-        ]);
-        return response()->json();
-    }
-
+     public function prediction(Request $request)
+     {
+         $comment = $request->input('comment');
+ 
+         $response = Http::get(env('MICROSERVICIO_FLASK') . '/prediction', [
+             'comment' => $comment
+         ]);
+ 
+         if ($response->successful()) {
+             $prediction = $response->json('prediction'); // Ajusta esto según la estructura de tu respuesta de Flask
+             return response()->json(['prediction' => $prediction]);
+         } else {
+             return response()->json(['error' => 'Error al comunicarse con el microservicio Flask'], $response->status());
+         }
+     }
 
 
     /**

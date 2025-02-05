@@ -48,7 +48,6 @@ def index():
         df_comentarios = pd.DataFrame({'Comentario': [comment], 'Prediccion': [prediction]})
         df_comentarios.to_csv('comentarios.csv', mode='a', header=not os.path.exists('comentarios.csv'), index=False)
         return render_template('index.html', prediction=prediction, comment=comment)  # Correcto: return dentro del if
-    return render_template('index.html', prediction=prediction, comment=comment) 
- # Correcto: return fuera del if (para GET)
+    return render_template('index.html', prediction=prediction, comment=comment)  # Correcto: return fuera del if (para GET)
 if __name__ == '__main__':
     app.run(debug=True)
