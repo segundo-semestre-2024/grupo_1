@@ -16,6 +16,9 @@ use App\Http\Controllers\ReportController;
 */
 
 Route::middleware(['Filter'])->group(function () {
+    
+    Route::resource('videogames', VideoGamesController::class);
+
     Route::get('/reportes-pdf', [ReportController::class, 'generarPDF']);
     Route::get('/reportes-excel', [ReportController::class, 'generarExcel']);
 });
