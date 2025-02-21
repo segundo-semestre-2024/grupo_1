@@ -1,0 +1,42 @@
+.estilo1{
+    padding: 10px;
+    width: 300px; /* Ancho de los inputs */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;  /* Centra horizontalmente */
+    align-items: center;  /* Centra verticalmente */
+    height: 50px; /* Ocupar toda la pantalla */
+    gap: 10px; /* Espacio entre inputs */
+}
+
+body {
+    font-family: "Roboto Condensed", serif;
+    font-optical-sizing: auto;
+    background-color: #f8f9fa;
+}
+.navbar {
+    background-color: #333;
+}
+.navbar-brand, .nav-link {
+    color: white !important;
+}
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #ddd;
+}
+.product-card {
+    border: none;
+    transition: transform 0.3s;
+}
+.product-card:hover {
+    transform: scale(1.05);
+}
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}

@@ -33,10 +33,7 @@ df = pd.read_csv(archivo)
 
 df.head()
 
-df
-
 df = df[['category', 'clean_text']].copy()
-
 df.head()
 
 df['category'].hist()
@@ -51,15 +48,9 @@ df_train, df_test = train_test_split(df)
 Y_train = df_train['target']
 Y_test = df_test['target']
 
-df_train
-
-df_test
-
-vectorizer = TfidfVectorizer(max_features=2000)
+vectorizer = TfidfVectorizer(max_features=2000) #probar con mas vectorización sino funciona
 
 X_train = vectorizer.fit_transform(df_train['clean_text'])
-
-X_train
 
 X_test = vectorizer.transform(df_test['clean_text'])
 X_test
@@ -110,7 +101,7 @@ for word, index in word_index_map.items():
 
 plt.hist(model.coef_[0], bins=30)
 
-prueba = ["I feel sad", "Its lovely", "its good", "la"]
+prueba = ["How beautiful everything is", "Its", "its good", "la"]
 
 # Transformar la entrada con el vectorizador
 x = vectorizer.transform(prueba)
