@@ -38,9 +38,9 @@
         <h3 class="text-center" >Ingrese un comentario para clasificar</h3>
         <form method="POST">
         <div class="mb-3">
-            <input type="text" id="comment" name="comment" class="form-control" placeholder="Escriba un comentario...">
+            <input type="text" id="comment" name="comment" class="form-control  estilo3" placeholder="Escriba un comentario...">
         </div>
-        <button type="submit" class="btn btn-primary" value="Analizar">Predecir</button>
+        <button type="submit" class="btn btn-primary boton1" value="Analizar">Predecir</button>
     </form>
       <!--  Fin del comentario -->
 {% if prediction %}
@@ -154,22 +154,22 @@
 </section>
 
      <!--  contacto -->
-    <div class="container mt-5">
-        <h2 class="text-center">Contáctanos</h2>
+    <div class="container mt-5 formulario">
+        <h2 class="text-center">Contacto</h2>
         <form>
             <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
+                <label for="nombre" class="form-label estilo2">Nombre</label>
                 <input type="text" class="form-control  estilo1" id="nombre"  placeholder="Tu nombre" required>
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Correo Electrónico</label>
+                <label for="email" class="form-label estilo2">Correo Electrónico</label>
                 <input type="email" class="form-control estilo1" id="email" placeholder="tuemail@example.com" required>
             </div>
             <div class="mb-3">
-                <label for="mensaje" class="form-label">Mensaje</label>
+                <label for="mensaje" class="form-label estilo2">Mensaje</label>
                 <textarea class="form-control estilo1" id="mensaje" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
             </div>
-            <button type="submit" class="btn btn-dark">Enviar Mensaje</button>
+            <button type="submit" class="btn btn-dark estilo2">Enviar Mensaje</button>
         </form>
     </div>
      <!--  fin del contacto -->
