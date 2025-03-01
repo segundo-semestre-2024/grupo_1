@@ -77,7 +77,7 @@ def predict():
         print("⚠️ Comentario negativo detectado, enviando notificación...")
 
         notification_payload = {
-            "destino": "+573013179250",  # Número de destino
+            "destino": "+573146243565",  # Número de destino
             "mensaje": f"Se ha detectado un comentario negativo: '{comment}'"
         }
         headers = {"X-API-KEY": API_KEY, "Content-Type": "application/json"}

@@ -24,13 +24,13 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 //Notificaciones
-Route::middleware(['role:Administrador'])->group(function () {
-    Route::post('/notificaciones', [GatewayController::class, 'enviarMensaje']);
+Route::middleware(['role:admin'])->group(function () {
+    Route::post('/', [GatewayController::class, 'enviarMensaje']);
     Route::get('/list-user', [AuthController::class, 'listarUsuarios']);
 });
     //Reportes
     
-Route::middleware(['role:User'])->group(function () {
+Route::middleware(['role:user'])->group(function () {
       
     Route::post('/prediction', [GatewayController::class, 'prediction']);
     });
