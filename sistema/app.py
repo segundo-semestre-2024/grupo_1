@@ -12,13 +12,12 @@ from dotenv import load_dotenv
 from functools import wraps  # Para el decorador de la API Key
 
 # 🔹 Cargar las variables de entorno
-load_dotenv()
-
+load_dotenv(override=True)  # Carga las variables del .env de nuevo
 API_KEY = os.getenv("API_KEY", "default_key")
 NOTIFICACIONES_URL = os.getenv("NOTIFICACIONES_URL")
 
-print(f"API_KEY cargada: {API_KEY}")
-print(f"Microservicio de Notificaciones: {NOTIFICACIONES_URL}")
+print(f"📢 API_KEY cargada: {API_KEY}")
+print(f"📢 Microservicio de Notificaciones: {NOTIFICACIONES_URL}")
 
 app = Flask(__name__)
 
@@ -83,6 +82,10 @@ def predict():
         headers = {"X-API-KEY": API_KEY, "Content-Type": "application/json"}
 
         try:
+            print("📡 Enviando solicitud a:", NOTIFICACIONES_URL)
+            print("📝 Datos enviados:", notification_payload)
+            print("🛠 Headers enviados:", headers)
+
             notify_response = requests.post(NOTIFICACIONES_URL, json=notification_payload, headers=headers)
             if notify_response.status_code == 200:
                 print("✅ Notificación enviada correctamente.")
