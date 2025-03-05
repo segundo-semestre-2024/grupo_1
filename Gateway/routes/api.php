@@ -12,21 +12,18 @@ use App\Http\Controllers\GatewayController;
 |--------------------------------------------------------------------------
 */
 
-// Rutas públicas
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // Rutas protegidas por Sanctum y con control de roles
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-
-    // Notificaciones (solo admin)
     Route::middleware(['role:admin'])->group(function () {
         Route::post('/', [GatewayController::class, 'enviarMensaje']);
         Route::get('/list-user', [AuthController::class, 'listarUsuarios']);
     });
 
-    // Reportes (solo user)
     Route::middleware(['role:user'])->group(function () {
         Route::post('/prediction', [GatewayController::class, 'prediction']);
     });
