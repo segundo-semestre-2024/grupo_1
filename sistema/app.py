@@ -86,6 +86,9 @@ def predict():
             print("📝 Datos enviados:", notification_payload)
             print("🛠 Headers enviados:", headers)
 
+            print(f"🔍 Respuesta de la notificación: {notify_response.status_code} - {notify_response.text}")
+
+
             notify_response = requests.post(NOTIFICACIONES_URL, json=notification_payload, headers=headers)
             if notify_response.status_code == 200:
                 print("✅ Notificación enviada correctamente.")

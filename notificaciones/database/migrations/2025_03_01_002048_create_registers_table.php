@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('registers', function (Blueprint $table) {
             $table->id();
-            $table->role();
             $table->string('destino');        // Número al que se envía el mensaje
             $table->text('mensaje');         // Contenido del mensaje
             $table->string('estado');        // Estado del mensaje (enviado, error, etc.)
