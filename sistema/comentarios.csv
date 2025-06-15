@@ -50,3 +50,7 @@ im albeiro bad,negativo
 im kolo bad,negativo
 im kolo bad,negativo
 im kolo bad,negativo
+"""Good""",positivo
+"""Bad""",negativo
+"""Hola prueba""",neutro
+"""Puchainas unidas""",neutro
