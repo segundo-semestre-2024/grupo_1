@@ -125,6 +125,62 @@ public function test_clasifica_comentario_largo()
             return $request->url() === 'http://127.0.0.1:5000/prediction';
         });
     }
+/** @test */
+    public function clasifica_comentario_positivo()
+    {
+        $user = $this->crearUsuarioConRol2();
+        $token = $user->createToken('api-token')->plainTextToken;
 
+        Http::fake([
+            'http://127.0.0.1:5000/prediction' => Http::response([
+                'prediction' => 'positivo'
+            ], 200)
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])->postJson('/api/prediction', [
+            'comment' => 'good'
+        ]);
+
+        $response->assertStatus(200)
+                 ->assertJson([
+                     'prediction' => 'positivo'
+                 ]);
+
+        Http::assertSent(function ($request) {
+            return $request->url() === 'http://127.0.0.1:5000/prediction';
+        });
+    }
+
+    /** @test */
+    public function clasifica_comentario_neutro()
+    {
+        $user = $this->crearUsuarioConRol2();
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        Http::fake([
+            'http://127.0.0.1:5000/prediction' => Http::response([
+                'prediction' => 'neutro'
+            ], 200)
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+        ])->postJson('/api/prediction', [
+            'comment' => 'book'
+        ]);
+
+        $response->assertStatus(200)
+                 ->assertJson([
+                     'prediction' => 'neutro'
+                 ]);
+
+        Http::assertSent(function ($request) {
+            return $request->url() === 'http://127.0.0.1:5000/prediction';
+        });
+    }
 
 }
