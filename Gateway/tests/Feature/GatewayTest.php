@@ -44,7 +44,6 @@ class GatewayTest extends TestCase
 
         public function test_enrutamiento_a_prediction()
     {
-        // Crear usuario
         $user = \App\Models\User::factory()->create();
 
         DB::table('user_role')->insert([
