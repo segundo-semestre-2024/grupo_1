@@ -44,7 +44,6 @@ class GatewayTest extends TestCase
 
         public function test_enrutamiento_a_prediction()
     {
-        // Crear usuario
         $user = \App\Models\User::factory()->create();
 
         DB::table('user_role')->insert([
@@ -64,5 +63,39 @@ class GatewayTest extends TestCase
         $response->assertStatus(200);
     }
 
+
+    public function test_admin_puede_listar_usuarios(): void
+    {
+        $user = \App\Models\User::factory()->create([
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password123')
+        ]);
+
+        DB::table('user_role')->insert([
+            'user_id' => $user->id,
+            'role_id' => 1, 
+        ]);
+
+        $loginResponse = $this->postJson('/api/login', [
+            'email' => 'admin@example.com',
+            'password' => 'password123'
+        ]);
+
+        $token = $loginResponse->json('token');
+
+        // Hacer solicitud GET a /list-user con token
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+                         ->getJson('/api/list-user');
+
+        $response->assertStatus(200)
+                 ->assertJson([
+                     'message' => 'Lista de usuarios obtenida correctamente.'
+                 ])
+                 ->assertJsonStructure([
+                     'usuarios' => [
+                         '*' => ['id', 'name', 'email'] // Ajusta según lo que devuelvas
+                     ]
+                 ]);
+    }
 
 }
