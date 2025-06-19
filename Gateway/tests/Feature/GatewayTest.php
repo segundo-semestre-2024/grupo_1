@@ -10,7 +10,7 @@ class GatewayTest extends TestCase
 {
     use DatabaseTransactions;
 
-        public function test_login_correcto()
+    public function test_login_correcto()
     {
         $user = \App\Models\User::factory()->create([
             'email' => 'test@example.com',
@@ -26,7 +26,7 @@ class GatewayTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure([
                 'token',
-                'user' => ['id', 'name', 'email'], 
+                'user' => ['id', 'name', 'email'],
             ]);
     }
 
@@ -38,11 +38,11 @@ class GatewayTest extends TestCase
         ]);
 
         $response
-            ->assertStatus(401) 
+            ->assertStatus(401)
             ->assertSeeText('Credenciales incorrectas');
     }
 
-        public function test_enrutamiento_a_prediction()
+    public function test_enrutamiento_a_prediction()
     {
         $user = \App\Models\User::factory()->create();
 
@@ -56,7 +56,7 @@ class GatewayTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
-            'X-API-KEY' => env('API_KEY'),  // asegúrate que tu .env la tiene
+            'X-API-KEY' => env('API_KEY'),
         ])->postJson('/api/prediction', [
             'comment' => 'Texto de prueba',
         ]);
@@ -75,7 +75,7 @@ class GatewayTest extends TestCase
 
         DB::table('user_role')->insert([
             'user_id' => $user->id,
-            'role_id' => 1, 
+            'role_id' => 1,
         ]);
 
         $loginResponse = $this->postJson('/api/login', [
@@ -85,19 +85,18 @@ class GatewayTest extends TestCase
 
         $token = $loginResponse->json('token');
 
-        // Hacer solicitud GET a /list-user con token
+
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)
-                         ->getJson('/api/list-user');
+            ->getJson('/api/list-user');
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'message' => 'Lista de usuarios obtenida correctamente.'
-                 ])
-                 ->assertJsonStructure([
-                     'usuarios' => [
-                         '*' => ['id', 'name', 'email'] // Ajusta según lo que devuelvas
-                     ]
-                 ]);
+            ->assertJson([
+                'message' => 'Lista de usuarios obtenida correctamente.'
+            ])
+            ->assertJsonStructure([
+                'usuarios' => [
+                    '*' => ['id', 'name', 'email']
+                ]
+            ]);
     }
-
 }
