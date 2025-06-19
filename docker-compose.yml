@@ -1,0 +1,77 @@
+version: '3.9'
+
+services:
+  gateway:
+    container_name: gateway_service
+    build:
+      context: ./Gateway
+      dockerfile: ../Dockerfile_gateway
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Gateway:/var/www/html
+    networks:
+      microservices_network:
+        ipv4_address: 172.28.0.2
+    depends_on:
+      - mysql
+
+  notificaciones:
+    container_name: notificaciones_service
+    build:
+      context: ./notificaciones
+      dockerfile: ../Dockerfile_gateway 
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./notificaciones:/var/www/html
+    networks:
+      microservices_network:
+        ipv4_address: 172.28.0.3
+    depends_on:
+      - mysql
+
+  sistema:
+    container_name: sistema_service
+    build:
+      context: ./sistema
+      dockerfile: ../Dockerfile_flask
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./sistema:/app
+    command: python app.py
+    environment:
+      - FLASK_ENV=development
+      - API_KEY=1234
+    networks:
+      microservices_network:
+        ipv4_address: 172.28.0.4
+    depends_on:
+      - mysql
+
+  mysql:
+    container_name: mysql_serviceneutro
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: proyecto
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      microservices_network:
+        ipv4_address: 172.28.0.5
+
+networks:
+  microservices_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  mysql_data:
