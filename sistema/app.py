@@ -50,6 +50,7 @@ def guardar_datos(ruta, datos):
 @app.route('/prediction', methods=['POST'])
 @require_api_key
 def predict():
+    print("🔔 Llego petición predict")
     data = request.get_json()
     if not data or 'comment' not in data:
         return jsonify({'error': 'Debe proporcionar un comentario'}), 400

@@ -56,7 +56,7 @@ class GatewayTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
-            'X-API-KEY' => env('API_KEY', 'default_key'),  // asegúrate que tu .env la tiene
+            'X-API-KEY' => env('API_KEY'),  // asegúrate que tu .env la tiene
         ])->postJson('/api/prediction', [
             'comment' => 'Texto de prueba',
         ]);
