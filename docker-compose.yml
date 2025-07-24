@@ -69,7 +69,7 @@ services:
   jenkins:
     container_name: jenkins-services
     build:
-      context: ./Gateway
+      context: ./jenkins1
       dockerfile: ../Dockerfile_jenkins
     ports:
       - "8080:8080"
