@@ -68,7 +68,9 @@ services:
 
   jenkins:
     container_name: jenkins-services
-    image: jenkins/jenkins:lts
+    build:
+      context: ./Gateway
+      dockerfile: ../Dockerfile_jenkins
     ports:
       - "8080:8080"
       - "50000:50000"
