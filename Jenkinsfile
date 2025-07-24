@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Levantar contenedores') {
             steps {
-                sh 'docker-compose up -d --build'
+                sh 'docker compose up -d --build'
             }
         }
         stage('Esperar servicios') {
