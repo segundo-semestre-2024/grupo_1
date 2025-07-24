@@ -6,6 +6,11 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins
 
 
 # Instalar Docker y Docker Compose v2
+# Instalar Docker CLI y docker-compose
+RUN apt-get update && \
+    apt-get install -y docker.io docker-compose && \
+    usermod -aG docker jenkins
+    
 RUN apt-get update && \
     apt-get install -y docker.io curl && \
     mkdir -p /usr/local/lib/docker/cli-plugins && \
