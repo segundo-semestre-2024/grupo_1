@@ -70,7 +70,7 @@ services:
     container_name: jenkins-services
     build:
       context: ./jenkins1
-      dockerfile: ../Dockerfile_jenkins
+      dockerfile: Dockerfile_jenkins
     ports:
       - "8080:8080"
       - "50000:50000"
