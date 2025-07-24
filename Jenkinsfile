@@ -23,14 +23,14 @@ pipeline {
         }
         stage('Migraciones y seed') {
             steps {
-                sh 'docker exec -it gateway_service bash php artisan migrate:fresh --seed'
-            }
-        }
+                sh 'docker exec gateway_service bash -c "php artisan migrate:fresh --seed"'
+    }
+}
         stage('Pruebas unitarias') {
             steps {
-                sh "docker exec -it gateway_service php artisan test"
-            }
-        }
+                sh 'docker exec gateway_service bash -c "php artisan test"'
+    }
+}
         stage('Apagar contenedores') {
             steps {
                 sh 'docker-compose down'
