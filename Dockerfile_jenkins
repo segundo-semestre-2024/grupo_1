@@ -2,6 +2,9 @@ FROM jenkins/jenkins:lts
 
 USER root
 
+RUN mkdir -p /usr/local/lib/docker/cli-plugins
+
+
 # Instalar Docker y Docker Compose v2
 RUN apt-get update && \
     apt-get install -y docker.io curl && \
