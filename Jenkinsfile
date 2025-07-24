@@ -11,9 +11,28 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/segundo-semestre-2024/grupo_1.git'
             }
         }
+
+
+          stage('limpiar contendor viejo ') {
+            steps {
+                script {
+                    sh '''
+                    if [ $(docker ps -a -q -f name=jenkins-services) ]; then
+                        docker rm -f jenkins-services
+                    fi
+                    '''
+                }
+            }
+        }
         stage('Levantar contenedores') {
             steps {
                 sh 'docker compose up -d --build'
+            }
+        }
+
+        stage('correr el  container') {
+            steps {
+                sh 'docker run -d --name jenkins-services -p 8080:8080 jenkins/jenkins:lts'
             }
         }
         stage('Esperar servicios') {
