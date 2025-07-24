@@ -1,6 +1,7 @@
 pipeline {
-    agent any
-
+     agent {
+        label 'docker'  // Usa un nodo con Docker instalado
+    }
     stages {
 
         stage('Verificar Docker') {
