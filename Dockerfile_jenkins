@@ -1,0 +1,13 @@
+FROM jenkins/jenkins:lts
+
+USER root
+
+# Instala Docker y docker-compose
+RUN apt-get update && \
+    apt-get install -y docker.io docker-compose && \
+    usermod -aG docker jenkins
+
+# Instala git (opcional, pero útil)
+RUN apt-get install -y git
+
+USER jenkins
