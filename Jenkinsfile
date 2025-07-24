@@ -1,19 +1,16 @@
 pipeline {
-     agent {
-        label 'docker'  // Usa un nodo con Docker instalado
-    }
+    agent any  // Usa cualquier agente disponible (asegúrate de que tenga Docker instalado)
     stages {
-
         stage('Verificar Docker') {
             steps {
-                sh 'docker --version || echo "Docker no disponible"'
-                sh 'docker compose version || echo "Docker Compose no disponible"'
-            }
-        }
-
-        stage('Verificar archivos') {
-            steps {
-                sh 'ls -la'
+                script {
+                    try {
+                        sh 'docker --version'
+                        sh 'docker-compose --version'
+                    } catch (Exception e) {
+                        error("Docker no está instalado en este agente.")
+                    }
+                }
             }
         }
 
@@ -23,39 +20,16 @@ pipeline {
             }
         }
 
-        stage('Limpiar contenedor viejo') {
-            steps {
-                script {
-                    sh '''
-                    if [ $(docker ps -a -q -f name=jenkins-services) ]; then
-                        docker rm -f jenkins-services
-                    fi
-                    '''
-                }
-            }
-        }
-
         stage('Levantar contenedores') {
             steps {
                 sh 'docker compose up -d --build'
             }
         }
 
-        stage('Esperar servicios') {
+        stage('Ejecutar migraciones y pruebas') {
             steps {
-                sh 'sleep 10'
-            }
-        }
-
-        stage('Migraciones y seed') {
-            steps {
-                sh 'docker exec gateway_service php artisan migrate:fresh --seed'
-            }
-        }
-
-        stage('Pruebas unitarias') {
-            steps {
-                sh 'docker exec gateway_service php artisan test'
+                sh 'docker compose exec gateway_service php artisan migrate:fresh --seed'
+                sh 'docker compose exec gateway_service php artisan test'
             }
         }
 

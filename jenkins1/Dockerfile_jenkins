@@ -1,27 +1,15 @@
+# Usa la imagen base de Jenkins
 FROM jenkins/jenkins:lts
 
+# Cambia a root para instalar dependencias
 USER root
 
-RUN mkdir -p /usr/local/lib/docker/cli-plugins
-
-
-FROM jenkins/jenkins:lts
-
-
-FROM jenkins/jenkins:lts
-
-USER root
-
+# Instala Docker y Docker Compose
 RUN apt-get update && \
-    apt-get install -y docker.io curl gnupg2 lsb-release
+    apt-get install -y docker.io curl && \
+    curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose && \
+    usermod -aG docker jenkins
 
-RUN mkdir -p /usr/local/lib/docker/cli-plugins
-
-RUN curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 \
-    -o /usr/local/lib/docker/cli-plugins/docker-compose && \
-    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-
-RUN usermod -aG docker jenkins
-
+# Vuelve al usuario jenkins
 USER jenkins
-
