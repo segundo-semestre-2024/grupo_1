@@ -56,14 +56,29 @@ services:
     ports:
       - "3306:3306"
     environment:
- 
-      ports:
-        - "8080:8080"
-        - "50000:50000"
-      volumes:
-        - jenkins_home:/var/jenkins_home
-        - /var/run/docker.sock:/var/run/docker.sock
-      restart: unless-stopped
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: proyecto
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      microservices_network:
+        ipv4_address: 172.28.0.5
+
+  jenkins:
+    container_name: jenkins-servidor
+    image: jenkins/jenkins:lts
+    ports:
+      - "8081:8080"
+      - "50001:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      microservices_network:
+        ipv4_address: 172.28.0.6
+    restart: unless-stopped
 
 networks:
   microservices_network:
@@ -71,8 +86,6 @@ networks:
     ipam:
       config:
         - subnet: 172.28.0.0/16
-
-
 
 volumes:
   mysql_data:
