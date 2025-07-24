@@ -5,19 +5,21 @@ USER root
 RUN mkdir -p /usr/local/lib/docker/cli-plugins
 
 
-# Instalar Docker y Docker Compose v2
-# Instalar Docker CLI y docker-compose
-RUN apt-get update && \
-    apt-get install -y docker.io docker-compose && \
-    usermod -aG docker jenkins
-    
-RUN apt-get update && \
-    apt-get install -y docker.io curl && \
-    mkdir -p /usr/local/lib/docker/cli-plugins && \
+FROM jenkins/jenkins:lts
+
+USER root
+
+# Instalar Docker CLI y dependencias
+RUN apt-get update && apt-get install -y docker.io curl
+
+# Instalar Docker Compose v2 (plugin CLI)
+RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
     curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 \
     -o /usr/local/lib/docker/cli-plugins/docker-compose && \
-    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose && \
-    usermod -aG docker jenkins
+    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+
+# Añadir usuario jenkins al grupo docker para permisos
+RUN usermod -aG docker jenkins
 
 USER jenkins
 
