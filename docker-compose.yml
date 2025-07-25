@@ -4,8 +4,8 @@ services:
   gateway:
     container_name: gateway_service
     build:
-      context: ./Gateway
-      dockerfile: ../Dockerfile_gateway
+      context: .
+      dockerfile: Dockerfile_gateway
     ports:
       - "8000:80"
     volumes:
