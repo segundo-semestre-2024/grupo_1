@@ -16,7 +16,7 @@ pipeline {
 
         stage('Clonar repositorio') {
             steps {
-               git credentialsId: 'github-token', url: 'https://github.com/segundo-semestre-2024/grupo_1.git', branch: 'main'
+               git url: 'https://github.com/segundo-semestre-2024/grupo_1.git', branch: 'main'
             }
         }
 
@@ -37,6 +37,13 @@ pipeline {
                 sh 'docker compose build'
             }
         }
+        
+        stage('Limpiar contenedores anteriores') {
+            steps {
+                sh 'docker rm -f mysql_service || true'
+            }
+        }
+
 
         stage('Levantar contenedores') {
             steps {
