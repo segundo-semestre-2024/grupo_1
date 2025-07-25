@@ -107,6 +107,13 @@ def predict():
 def health():
     return {'status': 'ok'}
 
+@app.errorhandler(Exception)
+def handle_exception(e):
+    import traceback
+    print("Error interno:", traceback.format_exc())
+    return jsonify({"error": "Error interno del servidor"}), 500
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
 
