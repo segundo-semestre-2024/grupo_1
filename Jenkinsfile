@@ -55,7 +55,7 @@ pipeline {
 
         stage('Verificar contenedores') {
             steps {
-                echo '🔍 Verificando contenedores...'
+                echo ' Verificando contenedores...'
                 sh 'docker compose ps'
             }
         }

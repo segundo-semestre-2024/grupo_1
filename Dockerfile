@@ -27,4 +27,3 @@ RUN usermod -aG docker jenkins && \
     chown -R jenkins:jenkins /var/jenkins_home
 
 USER jenkins
-
