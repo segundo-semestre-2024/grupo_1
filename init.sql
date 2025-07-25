@@ -1,3 +1,2 @@
-CREATE USER 'user'@'%' IDENTIFIED BY 'userpassword';
-GRANT ALL PRIVILEGES ON proyecto.* TO 'user'@'%';
-FLUSH PRIVILEGES;
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'rootpassword';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
