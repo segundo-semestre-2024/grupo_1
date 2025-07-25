@@ -70,9 +70,9 @@ services:
       MYSQL_DATABASE: proyecto
       MYSQL_USER: user
       MYSQL_PASSWORD: userpassword
-    #volumes:
-     # - mysql_data:/var/lib/mysql
-      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - microservices_network
 
