@@ -129,12 +129,12 @@ class PredictionTest extends TestCase
             'Accept' => 'application/json',
             'X-API-KEY' => env('API_KEY'),
         ])->postJson('/api/prediction', [
-            'comment' => 'book',
+            'comment' => 'books are the normal think in the world',
         ]);
 
         $response->assertStatus(200)
             ->assertJson([
-                'prediction' => 'neutro'
+                'prediction' => 'negativo'
             ]);
     }
 
