@@ -47,7 +47,7 @@ services:
     container_name: sistema_service
     build:
       context: ./sistema
-      dockerfile: ../Dockerfile_flask
+      dockerfile: Dockerfile_flask
     ports:
       - "5000:5000"
     #volumes:
