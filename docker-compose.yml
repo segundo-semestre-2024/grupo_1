@@ -7,28 +7,41 @@ services:
       context: ./Gateway
       dockerfile: ../Dockerfile_gateway
     ports:
-      - "8000:8000"
+      - "8000:80"
     volumes:
       - ./Gateway:/var/www/html
-    networks:
-      microservices_network:
+    environment:
+      - APP_ENV=testing
+      - DB_HOST=mysql
+      - DB_DATABASE=proyecto
+      - DB_USERNAME=user
+      - DB_PASSWORD=userpassword
+      - X_API_KEY=1234
+      - API_KEY=1234
+      - MICROSERVICIO_FLASK=http://sistema:5000
     depends_on:
       - mysql
-    
+    networks:
+      - microservices_network
 
   notificaciones:
     container_name: notificaciones_service
     build:
       context: ./notificaciones
-      dockerfile: ../Dockerfile_gateway 
+      dockerfile: ../Dockerfile_gateway
     ports:
-      - "8001:8001"
+      - "8001:80"
     volumes:
       - ./notificaciones:/var/www/html
-    networks:
-      microservices_network:
+    environment:
+      - DB_HOST=mysql
+      - DB_DATABASE=proyecto
+      - DB_USERNAME=user
+      - DB_PASSWORD=userpassword
     depends_on:
       - mysql
+    networks:
+      - microservices_network
 
   sistema:
     container_name: sistema_service
@@ -39,16 +52,16 @@ services:
       - "5000:5000"
     volumes:
       - ./sistema:/app
-    command: python app.py
     environment:
-      - FLASK_ENV=development
+      - NOTIFICACIONES_URL=http://notificaciones:8001/api/send-sms
       - API_KEY=1234
-    networks:
-      microservices_network:
     depends_on:
       - mysql
+    networks:
+      - microservices_network
+
   mysql:
-    container_name: mysql_serviceneutro
+    container_name: mysql_service
     image: mysql:5.7
     ports:
       - "3306:3306"
@@ -60,27 +73,10 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      microservices_network:
-
-  jenkins:
-    container_name: jenkins-services
-    build:
-      context: ./jenkins1
-      dockerfile: Dockerfile_jenkins
-    ports:
-      - "8080:8080"
-      - "50000:50000"
-    volumes:
-      - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      microservices_network:
-    restart: unless-stopped
+      - microservices_network
 
 networks:
   microservices_network:
 
-
 volumes:
   mysql_data:
-  jenkins_home:

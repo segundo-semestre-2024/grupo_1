@@ -1,42 +1,93 @@
 pipeline {
-    agent any  // Usa cualquier agente disponible (asegúrate de que tenga Docker instalado)
+    agent any
+
+    environment {
+        
+        LARAVEL_ENV = 'X_API_KEY=1234\nAPI_KEY=1234\nMICROSERVICIO_FLASK=http://sistema:5000'
+        SISTEMA_ENV = 'NOTIFICACIONES_URL=http://notificaciones:8001/api/send-sms\nAPI_KEY=1234'
+    }
+
     stages {
-        stage('Verificar Docker') {
+        stage('Limpiar workspace') {
             steps {
-                script {
-                    try {
-                        sh 'docker --version'
-                        sh 'docker-compose --version'
-                    } catch (Exception e) {
-                        error("Docker no está instalado en este agente.")
-                    }
-                }
+                deleteDir()
             }
         }
 
         stage('Clonar repositorio') {
             steps {
-                git branch: 'main', url: 'https://github.com/segundo-semestre-2024/grupo_1.git'
+               git credentialsId: 'github-token', url: 'https://github.com/segundo-semestre-2024/grupo_1.git', branch: 'main'
+            }
+        }
+
+        stage('Crear .env de gateway') {
+            steps {
+                writeFile file: 'gateway/.env', text: "${env.LARAVEL_ENV}"
+            }
+        }
+
+        stage('Crear .env de sistema') {
+            steps {
+                writeFile file: 'sistema/.env', text: "${env.SISTEMA_ENV}"
+            }
+        }
+
+        stage('Construir contenedores') {
+            steps {
+                sh 'docker compose build'
             }
         }
 
         stage('Levantar contenedores') {
             steps {
-                sh 'docker compose up -d --build'
+                sh 'docker compose up -d'
             }
         }
 
-        stage('Ejecutar migraciones y pruebas') {
+        stage('Instalar dependencias') {
             steps {
-                sh 'docker compose exec gateway_service php artisan migrate:fresh --seed'
-                sh 'docker compose exec gateway_service php artisan test'
+                sh '''
+                    docker compose exec gateway composer install
+                    docker compose exec sistema pip install -r sistema/requirements.txt
+                '''
             }
         }
 
-        stage('Apagar contenedores') {
+        stage('Esperar MySQL') {
             steps {
-                sh 'docker compose down'
+                sh '''
+                    docker compose exec mysql_serviceneutro bash -c '
+                        for i in {1..10}; do
+                            if mysqladmin ping -h localhost --silent; then
+                                exit 0
+                            fi
+                            sleep 5
+                        done
+                        exit 1
+                    '
+                '''
             }
+        }
+
+        stage('Migrar base de datos') {
+            steps {
+                sh '''
+                    docker compose exec gateway php artisan key:generate
+                    docker compose exec gateway php artisan migrate --force
+                '''
+            }
+        }
+
+        stage('Ejecutar pruebas de Laravel') {
+            steps {
+                sh 'docker compose exec gateway php artisan test'
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker compose down'
         }
     }
 }
